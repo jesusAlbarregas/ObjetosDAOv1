@@ -25,11 +25,12 @@ div#principal div#secundario {
     float: left;
     left: 20%;
 }
-div#principal table {
+/*div#principal table {
     width: 40%;
     position: relative;
     left: 30%;
-}
+    border: 1px;
+}*/
 fieldset {
     width: 50%; 
     border: none;
@@ -113,6 +114,11 @@ div#principal table {
     width: 70%;
     left: 15%;
     margin: 10px;
+    border: 1px;
+}
+table td {
+    border-collapse: collapse;
+    border: 1px;
 }
 .enlace {
     display: inline;

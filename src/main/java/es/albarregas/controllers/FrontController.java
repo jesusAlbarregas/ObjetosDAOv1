@@ -6,10 +6,16 @@
 package es.albarregas.controllers;
 
 import es.albarregas.beans.Alumno;
+import es.albarregas.beans.Auxiliar;
+import es.albarregas.beans.Auxiliar2;
+import es.albarregas.beans.Equipo;
 import es.albarregas.dao.IAlumnosDAO;
 import es.albarregas.dao.AlumnosDAO;
+import es.albarregas.dao.EquiposDAO;
+import es.albarregas.dao.IEquiposDAO;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,6 +56,7 @@ public class FrontController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         IAlumnosDAO adao = new AlumnosDAO();
+        IEquiposDAO edao = new EquiposDAO();
         List<Alumno> alumnos = new ArrayList<>();
         String url = "/JSP/aviso.jsp";
 
@@ -61,24 +68,85 @@ public class FrontController extends HttpServlet {
                     alumnos = adao.getAlumnos();
                     if (alumnos != null) {
                         url = "/JSP/salida.jsp";
-                        
+                        request.setAttribute("alumnos", alumnos);
+                    } else {
+                        url = "/JSP/aviso.jsp";
+                        request.setAttribute("aviso", "No existen datos");
                     }
                     break;
                 case "alumnos_equipos":
                     alumnos = adao.getAlumnosEquipo();
                     if (alumnos != null) {
                         url = "/JSP/salida2.jsp";
-                        
+                        request.setAttribute("alumnos", alumnos);
+                    } else {
+                        url = "/JSP/aviso.jsp";
+                        request.setAttribute("aviso", "No existen datos");
                     }
                     break;
+
+                case "equipo_alumnos":
+                    alumnos = edao.getEquiposAsignados();
+                    if (alumnos != null) {
+                        Iterator<Alumno> itAlumno = alumnos.iterator();
+                        List<Auxiliar> listado = new ArrayList<>();
+                        List<String> alumAux = null;
+                        String equipoAux = "";
+                        Auxiliar aux = null;
+                        while (itAlumno.hasNext()) {
+                            Alumno alumno = new Alumno();
+
+                            alumno = itAlumno.next();
+                            if (!equipoAux.equalsIgnoreCase(alumno.getEquipo().getMarca())) {
+                                if (!equipoAux.equals("")) {
+                                    aux.setAlumnos(alumAux);
+                                    listado.add(aux);
+                                }
+                                aux = new Auxiliar();
+                                aux.setNombreEquipo(alumno.getEquipo().getMarca());
+
+                                equipoAux = alumno.getEquipo().getMarca();
+                                alumAux = new ArrayList<>();
+                            }
+                            alumAux.add(alumno.getNombre());
+                        }
+                        aux.setAlumnos(alumAux);
+                        listado.add(aux);
+                        request.setAttribute("listado", listado);
+                        url = "/JSP/salida3.jsp";
+                    } else {
+                        url = "/JSP/aviso.jsp";
+                        request.setAttribute("aviso", "No existen datos");
+                    }
+                    break;
+
+                case "equipo_alumnos2":
+                    List<Auxiliar2> listado2 = edao.getEquiposAsignadosSQL();
+                    if (listado2 != null) {
+                        request.setAttribute("listado2", listado2);
+                        url = "/JSP/salida4.jsp";
+                    } else {
+                        url = "/JSP/aviso.jsp";
+                        request.setAttribute("aviso", "No existen datos");
+                    }
+                    break;
+
+                case "equipo_sinalumnos":
+                    List<Equipo> equipos = edao.getEquiposSinAsignar();
+                    if (equipos != null) {
+                        request.setAttribute("equipos", equipos);
+                        url = "/JSP/salida5.jsp";
+                    } else {
+                        url = "/JSP/aviso.jsp";
+                        request.setAttribute("aviso", "No existen datos");
+                    }
+                    break;
+
             }
-            if (!url.contains("aviso")) {
-                request.setAttribute("alumnos", alumnos);
-            } else {
-                request.setAttribute("aviso", "No existen datos");
-            }
+
         } else {
             request.setAttribute("aviso", "No se han pasado parámetros");
+            url = "index.jsp";
 
         }
 

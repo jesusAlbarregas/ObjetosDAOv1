@@ -17,15 +17,29 @@
         </c:import>
     </head>
     <body>
-        <body>
-        <h1>Listado de alumnos</h1>
-        <form method="post" action="FrontController">
-            
-            <input type="radio" name="all" value="alumnos" />Alumnos<br/>
-            <br/>
-            <input type="radio" name="all" value="alumnos_equipos" />Alumnos - Equipo<br/>
-            <input type="submit" name="Enviar" value="Enviar" />
-        </form>
+    <body>
+        <div id="principal">
+            <h2>Listado de opciones</h2>
+            <form method="post" action="FrontController">
+
+                <input type="radio" name="all" value="alumnos" />Alumnos
+                <br/>
+                <br/>
+                <input type="radio" name="all" value="alumnos_equipos" />Alumnos - Equipo
+                <br/>
+                <br/>
+                <input type="radio" name="all" value="equipo_alumnos" />Equipo - Alumnos (por programación)
+                <br/>
+                <br/>
+                <input type="radio" name="all" value="equipo_alumnos2" />Equipo - Alumnos (por SQL)
+                <br/>
+                <br/>
+                <input type="radio" name="all" value="equipo_sinalumnos" />Equipo sin alumnos
+                <br/>
+                <br/>
+                <input type="submit" name="Enviar" value="Enviar" />
+            </form>
+        </div>
     </body>
-    </body>
+</body>
 </html>

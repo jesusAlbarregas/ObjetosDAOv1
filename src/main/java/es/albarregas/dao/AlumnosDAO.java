@@ -39,7 +39,7 @@ public class AlumnosDAO implements IAlumnosDAO {
     public List<Alumno> getAlumnosEquipo() {
         
         List<Alumno> lista = null;
-        String consulta = "SELECT a.nombre,e.marca,e.numSerie FROM alumnos as a left join equipos as e using(idEquipo)";
+        String consulta = "SELECT a.nombre,e.marca,e.numSerie FROM alumnos AS a LEFT JOIN equipos AS e USING(idEquipo)";
         try {
             Statement sentencia = ConnectionFactory.getConnection().createStatement();
             ResultSet resultado = sentencia.executeQuery(consulta);
