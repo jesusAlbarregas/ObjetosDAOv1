@@ -21,9 +21,10 @@ div#principal h2 {
 }
 div#principal div#secundario {
     width: 60%;
-    position: relative;
+    /*position: relative;
     float: left;
-    left: 20%;
+    left: 20%;*/
+    margin: auto;
 }
 /*div#principal table {
     width: 40%;
